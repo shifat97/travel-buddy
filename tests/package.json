@@ -1,0 +1,24 @@
+{
+  "name": "playwright-ts-template",
+  "version": "1.0.0",
+  "description": "A reusable Playwright TypeScript template with authentication setup and POM.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "show-report": "npx playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "automation",
+    "template"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^20.0.0",
+    "dotenv": "^17.4.2"
+  }
+}

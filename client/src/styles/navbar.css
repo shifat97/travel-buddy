@@ -1,0 +1,136 @@
+.navbar {
+  height: 4.5rem;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.logo-icon {
+  color: var(--primary-color);
+}
+
+.navbar-desktop {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+.nav-auth-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-user-dropdown {
+  position: relative;
+}
+
+.nav-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s;
+}
+
+.nav-user-btn:hover {
+  background-color: var(--bg-main);
+}
+
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 160px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.5rem 0;
+  display: none;
+  flex-direction: column;
+}
+
+.nav-user-dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+.dropdown-content a, .dropdown-content button {
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  text-align: left;
+  background: none;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-content a:hover, .dropdown-content button:hover {
+  background-color: var(--bg-main);
+  color: var(--primary-color);
+}
+
+.navbar-mobile-toggle {
+  display: none;
+  background: none;
+  color: var(--text-main);
+}
+
+.navbar-mobile {
+  position: fixed;
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  z-index: 99;
+}
+
+@media (max-width: 768px) {
+  .navbar-desktop {
+    display: none;
+  }
+  .navbar-mobile-toggle {
+    display: block;
+  }
+}
