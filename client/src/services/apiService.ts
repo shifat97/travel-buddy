@@ -56,6 +56,19 @@ export const apiService = {
     return data;
   },
 
+  async resetPassword(email: string, newPassword: string) {
+    const response = await fetch(`${API_URL}/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, newPassword }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Password reset failed');
+    }
+    return response.json();
+  },
+
   logout() {
     Cookies.remove('travel_buddy_token');
     Cookies.remove('travel_buddy_user');
