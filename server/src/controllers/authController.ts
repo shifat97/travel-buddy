@@ -52,4 +52,21 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, loginUser };
+// @desc    Reset password
+// @route   POST /api/auth/reset-password
+// @access  Public
+const resetPassword = async (req: Request, res: Response) => {
+  const { email, newPassword } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Password reset successful' });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+};
+
+export { registerUser, loginUser, resetPassword };

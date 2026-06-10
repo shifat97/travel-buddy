@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/authController';
+import { registerUser, loginUser, resetPassword } from '../controllers/authController';
 
 const router = express.Router();
 
@@ -61,5 +61,33 @@ router.post('/register', registerUser);
  *         description: Invalid email or password
  */
 router.post('/login', loginUser);
+
+/**
+ * @swagger
+ * /api/auth/reset-password:
+ *   post:
+ *     summary: Reset password
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - newPassword
+ *             properties:
+ *               email:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       404:
+ *         description: User not found
+ */
+router.post('/reset-password', resetPassword);
 
 export default router;
