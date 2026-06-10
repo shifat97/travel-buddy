@@ -1,22 +1,22 @@
 import { Page, Locator, expect } from '@playwright/test';
 
 export class LoginPage {
-    private readonly page: Page;
-    private readonly usernameInput: Locator;
-    private readonly passwordInput: Locator;
-    private readonly loginButton: Locator;
-    private readonly errorMessage: Locator;
+    readonly page: Page;
+    readonly usernameInput: Locator;
+    readonly passwordInput: Locator;
+    readonly loginButton: Locator;
+    readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.usernameInput = page.locator('[data-test="username"]');
-        this.passwordInput = page.locator('[data-test="password"]');
-        this.loginButton = page.locator('[data-test="login-button"]');
-        this.errorMessage = page.locator('[data-test="error"]');
+        this.usernameInput = page.locator('[data-test="login-email-input"]');
+        this.passwordInput = page.locator('[data-test="login-password-input"]');
+        this.loginButton = page.locator('[data-test="login-submit-btn"]');
+        this.errorMessage = page.locator('[data-test="login-error"] span');
     }
 
     async navigate() {
-        await this.page.goto('/');
+        await this.page.goto(`${process.env.BASE_URL}/login`);
         await expect(this.page).toHaveURL(`${process.env.BASE_URL}/login`);
     }
 

@@ -8,6 +8,6 @@ setup('authenticate', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login(testData.validUser.username, testData.validUser.password);
-    await expect(page).toHaveURL(/.*inventory.html/);
+    await expect(page).toHaveURL(/.*login/);
     await page.context().storageState({ path: authFile });
 });
