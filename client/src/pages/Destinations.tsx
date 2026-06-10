@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star, Filter, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import StorageService from '../services/storageService';
+import { apiService } from '../services/apiService';
 import type { Destination } from '../types';
 import '../styles/destinations.css';
 
@@ -19,10 +19,20 @@ const Destinations: React.FC = () => {
   const [priceRange, setPriceRange] = useState(500);
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = StorageService.getDestinations();
-    setDestinations(data);
+    const fetchDestinations = async () => {
+      try {
+        const data = await apiService.getDestinations();
+        setDestinations(data);
+      } catch (error) {
+        console.error('Error fetching destinations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDestinations();
   }, []);
 
   useEffect(() => {

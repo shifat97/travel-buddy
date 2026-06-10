@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from '../types';
-import StorageService from '../services/storageService';
+import Cookies from 'js-cookie';
+import { apiService } from '../services/apiService';
 
 interface AuthContextType {
   user: User | null;
@@ -19,9 +20,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = StorageService.getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
+    const userCookie = Cookies.get('travel_buddy_user');
+    if (userCookie) {
+      try {
+        setUser(JSON.parse(userCookie));
+      } catch (e) {
+        console.error('Failed to parse user cookie', e);
+        Cookies.remove('travel_buddy_user');
+        Cookies.remove('travel_buddy_token');
+      }
     }
     setIsLoading(false);
   }, []);
@@ -29,17 +36,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      
-      const foundUser = StorageService.findUserByEmail(email);
-      if (foundUser && foundUser.password === password) {
-        const { password: _, ...userWithoutPassword } = foundUser;
-        setUser(userWithoutPassword);
-        StorageService.setCurrentUser(userWithoutPassword);
-      } else {
-        throw new Error('Invalid email or password');
-      }
+      const data = await apiService.login({ email, password });
+      setUser(data);
+    } catch (error: any) {
+      throw new Error(error.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }
@@ -48,25 +48,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      
-      const existingUser = StorageService.findUserByEmail(email);
-      if (existingUser) {
-        throw new Error('User already exists');
-      }
-
-      const newUser = {
-        id: crypto.randomUUID(),
-        name,
-        email,
-        password,
-      };
-
-      StorageService.saveUser(newUser);
-      
-      const { password: _, ...userWithoutPassword } = newUser;
-      setUser(userWithoutPassword);
-      StorageService.setCurrentUser(userWithoutPassword);
+      const data = await apiService.register({ name, email, password });
+      setUser(data);
+    } catch (error: any) {
+      throw new Error(error.message || 'Registration failed');
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     setUser(null);
-    StorageService.setCurrentUser(null);
+    apiService.logout();
   };
 
   return (

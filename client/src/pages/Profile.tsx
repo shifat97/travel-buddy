@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Shield, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import StorageService from '../services/storageService';
+import { apiService } from '../services/apiService';
 import '../styles/profile.css';
 
 const Profile: React.FC = () => {
@@ -9,10 +9,16 @@ const Profile: React.FC = () => {
   const [bookingCount, setBookingCount] = useState(0);
 
   useEffect(() => {
-    if (user) {
-      const bookings = StorageService.getBookingsByUser(user.email);
-      setBookingCount(bookings.length);
-    }
+    const fetchStats = async () => {
+      if (!user) return;
+      try {
+        const bookings = await apiService.getMyBookings();
+        setBookingCount(bookings.length);
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+    fetchStats();
   }, [user]);
 
   return (

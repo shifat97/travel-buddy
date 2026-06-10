@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Calendar, Users, Shield, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import StorageService from '../services/storageService';
+import { apiService } from '../services/apiService';
 import type { Destination } from '../types';
 import '../styles/destination-detail.css';
 
@@ -16,16 +16,23 @@ const DestinationDetail: React.FC = () => {
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   useEffect(() => {
-    const data = StorageService.getDestinations();
-    const found = data.find(d => d.id === id);
-    if (found) {
-      setDestination(found);
-    } else {
-      navigate('/404');
-    }
+    const fetchDestination = async () => {
+      if (!id) return;
+      try {
+        const data = await apiService.getDestinationById(id);
+        setDestination(data);
+      } catch (error) {
+        console.error('Error fetching destination:', error);
+        navigate('/404');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDestination();
   }, [id, navigate]);
 
   const handleBooking = async (e: React.FormEvent) => {
@@ -44,29 +51,22 @@ const DestinationDetail: React.FC = () => {
     setMessage(null);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
       const nights = Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24));
       
       if (nights <= 0) {
         throw new Error('Check-out date must be after check-in date.');
       }
 
-      const booking = {
-        id: crypto.randomUUID(),
-        userEmail: user!.email,
-        destinationId: destination!.id,
+      const bookingData = {
+        destinationId: destination!._id || destination!.id,
         destinationName: destination!.name,
         checkInDate: checkIn,
         checkOutDate: checkOut,
         guests,
         totalPrice: destination!.price * nights * guests,
-        status: 'confirmed' as const,
-        createdAt: new Date().toISOString()
       };
 
-      StorageService.addBooking(booking);
+      await apiService.createBooking(bookingData);
       setMessage({ type: 'success', text: 'Booking confirmed! Redirecting to your bookings...' });
       
       setTimeout(() => {
@@ -79,7 +79,8 @@ const DestinationDetail: React.FC = () => {
     }
   };
 
-  if (!destination) return <div className="container">Loading...</div>;
+  if (isLoading) return <div className="container">Loading...</div>;
+  if (!destination) return <div className="container">Destination not found</div>;
 
   return (
     <div className="destination-detail-page container" data-test="destination-detail-page">

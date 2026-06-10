@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import StorageService from './services/storageService';
-import { INITIAL_DESTINATIONS } from './data/destinations';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -19,14 +16,6 @@ import NotFound from './pages/NotFound';
 import './styles/global.css';
 
 function App() {
-  useEffect(() => {
-    // Seed initial destinations if they don't exist
-    const existingDestinations = StorageService.getDestinations();
-    if (existingDestinations.length === 0) {
-      StorageService.setDestinations(INITIAL_DESTINATIONS);
-    }
-  }, []);
-
   return (
     <AuthProvider>
       <Router>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Users, CheckCircle, XCircle } from 'lucide-react';
+import { Calendar, Users, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import StorageService from '../services/storageService';
+import { apiService } from '../services/apiService';
 import type { Booking } from '../types';
 import '../styles/my-bookings.css';
 
@@ -10,12 +10,21 @@ const MyBookings: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const data = StorageService.getBookingsByUser(user.email);
-      setBookings(data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-    }
+    const fetchBookings = async () => {
+      if (!user) return;
+      try {
+        const data = await apiService.getMyBookings();
+        setBookings(data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchBookings();
   }, [user]);
 
   const formatDate = (dateString: string) => {
@@ -26,6 +35,8 @@ const MyBookings: React.FC = () => {
     });
   };
 
+  if (isLoading) return <div className="container">Loading...</div>;
+
   return (
     <div className="my-bookings-page container" data-test="my-bookings-page">
       <div className="section-header">
@@ -35,8 +46,8 @@ const MyBookings: React.FC = () => {
 
       {bookings.length > 0 ? (
         <div className="bookings-list">
-          {bookings.map((booking) => (
-            <div key={booking.id} className="booking-item card" data-test={`booking-item-${booking.id}`}>
+          {bookings.map((booking: any) => (
+            <div key={booking._id || booking.id} className="booking-item card" data-test={`booking-item-${booking._id || booking.id}`}>
               <div className="booking-main">
                 <div className="booking-info-group">
                   <h3 className="booking-dest-name">{booking.destinationName}</h3>

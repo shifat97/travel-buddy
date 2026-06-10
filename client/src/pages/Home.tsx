@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Calendar, Users, Star, ArrowRight } from 'lucide-react';
-import { INITIAL_DESTINATIONS } from '../data/destinations';
+import { apiService } from '../services/apiService';
+import type { Destination } from '../types';
 import '../styles/home.css';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const featuredDestinations = INITIAL_DESTINATIONS.slice(0, 3);
+  const [featuredDestinations, setFeaturedDestinations] = useState<Destination[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const data = await apiService.getDestinations();
+        setFeaturedDestinations(data.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching featured destinations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFeatured();
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,43 +82,47 @@ const Home: React.FC = () => {
           </button>
         </div>
 
-        <div className="destination-grid">
-          {featuredDestinations.map((dest) => (
-            <div key={dest.id} className="destination-card card" data-test={`featured-dest-${dest.id}`}>
-              <div className="card-image-wrapper">
-                <img src={dest.imageUrl} alt={dest.name} className="card-image" />
-                <div className="card-badge">{dest.category}</div>
-              </div>
-              <div className="card-content">
-                <div className="card-header">
-                  <h3 className="card-title">{dest.name}</h3>
-                  <div className="card-rating">
-                    <Star size={14} className="star-icon" fill="currentColor" />
-                    <span>{dest.rating}</span>
+        {isLoading ? (
+          <div className="loading-container">Loading...</div>
+        ) : (
+          <div className="destination-grid">
+            {featuredDestinations.map((dest) => (
+              <div key={dest._id || dest.id} className="destination-card card" data-test={`featured-dest-${dest._id || dest.id}`}>
+                <div className="card-image-wrapper">
+                  <img src={dest.imageUrl} alt={dest.name} className="card-image" />
+                  <div className="card-badge">{dest.category}</div>
+                </div>
+                <div className="card-content">
+                  <div className="card-header">
+                    <h3 className="card-title">{dest.name}</h3>
+                    <div className="card-rating">
+                      <Star size={14} className="star-icon" fill="currentColor" />
+                      <span>{dest.rating}</span>
+                    </div>
+                  </div>
+                  <div className="card-location">
+                    <MapPin size={14} />
+                    <span>{dest.location}</span>
+                  </div>
+                  <p className="card-description">{dest.description}</p>
+                  <div className="card-footer">
+                    <div className="card-price">
+                      <span className="price-value">${dest.price}</span>
+                      <span className="price-unit">/ night</span>
+                    </div>
+                    <button 
+                      className="btn btn-primary btn-sm"
+                      onClick={() => navigate(`/destinations/${dest._id || dest.id}`)}
+                      data-test={`explore-btn-${dest._id || dest.id}`}
+                    >
+                      Explore
+                    </button>
                   </div>
                 </div>
-                <div className="card-location">
-                  <MapPin size={14} />
-                  <span>{dest.location}</span>
-                </div>
-                <p className="card-description">{dest.description}</p>
-                <div className="card-footer">
-                  <div className="card-price">
-                    <span className="price-value">${dest.price}</span>
-                    <span className="price-unit">/ night</span>
-                  </div>
-                  <button 
-                    className="btn btn-primary btn-sm"
-                    onClick={() => navigate(`/destinations/${dest.id}`)}
-                    data-test={`explore-btn-${dest.id}`}
-                  >
-                    Explore
-                  </button>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Features Section */}
