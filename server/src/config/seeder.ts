@@ -1,0 +1,132 @@
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import Destination from '../models/Destination';
+import connectDB from './db';
+
+dotenv.config();
+
+const destinations = [
+  {
+    name: 'Santorini',
+    location: 'Greece',
+    description: 'Famous for its stunning sunsets, white-washed buildings, and turquoise waters.',
+    price: 250,
+    rating: 4.9,
+    category: 'Beach',
+    imageUrl: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Kyoto',
+    location: 'Japan',
+    description: 'A city of thousand temples, traditional tea houses, and beautiful cherry blossoms.',
+    price: 180,
+    rating: 4.8,
+    category: 'Cultural',
+    imageUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Swiss Alps',
+    location: 'Switzerland',
+    description: 'Majestic mountains, pristine lakes, and world-class skiing resorts.',
+    price: 320,
+    rating: 4.9,
+    category: 'Adventure',
+    imageUrl: 'https://images.unsplash.com/photo-1531310197839-ccf54634509e?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Bali',
+    location: 'Indonesia',
+    description: 'Tropical paradise with lush jungles, vibrant culture, and serene beaches.',
+    price: 120,
+    rating: 4.7,
+    category: 'Beach',
+    imageUrl: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Paris',
+    location: 'France',
+    description: 'The city of light, famous for its art, gastronomy, and the Eiffel Tower.',
+    price: 220,
+    rating: 4.6,
+    category: 'City',
+    imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Machu Picchu',
+    location: 'Peru',
+    description: 'Ancient Incan city set high in the Andes Mountains, a true wonder of the world.',
+    price: 280,
+    rating: 4.9,
+    category: 'Adventure',
+    imageUrl: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'New York City',
+    location: 'USA',
+    description: 'The city that never sleeps, with iconic landmarks and endless entertainment.',
+    price: 350,
+    rating: 4.5,
+    category: 'City',
+    imageUrl: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Reykjavik',
+    location: 'Iceland',
+    description: 'Gateway to natural wonders like the Northern Lights and volcanic landscapes.',
+    price: 260,
+    rating: 4.8,
+    category: 'Nature',
+    imageUrl: 'https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Rome',
+    location: 'Italy',
+    description: 'The Eternal City, rich with ancient history, incredible architecture, and pasta.',
+    price: 190,
+    rating: 4.7,
+    category: 'Cultural',
+    imageUrl: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Great Barrier Reef',
+    location: 'Australia',
+    description: 'The world\'s largest coral reef system, perfect for diving and snorkeling.',
+    price: 400,
+    rating: 4.9,
+    category: 'Nature',
+    imageUrl: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Prague',
+    location: 'Czech Republic',
+    description: 'City of a Hundred Spires, known for its Old Town Square and baroque buildings.',
+    price: 140,
+    rating: 4.6,
+    category: 'Cultural',
+    imageUrl: 'https://images.unsplash.com/photo-1513807016779-d51c0c026263?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Cairo',
+    location: 'Egypt',
+    description: 'Home to the Giza Pyramid Complex and the Great Sphinx, a must-visit for history buffs.',
+    price: 160,
+    rating: 4.5,
+    category: 'Cultural',
+    imageUrl: 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&q=80&w=800',
+  }
+];
+
+const importData = async () => {
+  try {
+    await connectDB();
+    await Destination.deleteMany();
+    await Destination.insertMany(destinations);
+    console.log('Data Imported!');
+    process.exit();
+  } catch (error) {
+    console.error(`${error}`);
+    process.exit(1);
+  }
+};
+
+importData();
