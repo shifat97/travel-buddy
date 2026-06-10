@@ -7,7 +7,7 @@ const authFile = 'playwright/.auth/user.json';
 setup('authenticate', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
-    await loginPage.login(testData.validUser.username, testData.validUser.password);
+    await loginPage.login(testData.validUser.email, testData.validUser.password);
     await expect(page).toHaveURL(/.*login/);
     await page.context().storageState({ path: authFile });
 });
