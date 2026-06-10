@@ -6,7 +6,6 @@ export class LoginPage {
     private readonly passwordInput: Locator;
     private readonly loginButton: Locator;
     private readonly errorMessage: Locator;
-    private readonly errorCloseButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -14,12 +13,11 @@ export class LoginPage {
         this.passwordInput = page.locator('[data-test="password"]');
         this.loginButton = page.locator('[data-test="login-button"]');
         this.errorMessage = page.locator('[data-test="error"]');
-        this.errorCloseButton = page.locator('.error-button');
     }
 
     async navigate() {
         await this.page.goto('/');
-        await expect(this.page).toHaveURL('https://www.saucedemo.com/');
+        await expect(this.page).toHaveURL(`${process.env.BASE_URL}/login`);
     }
 
     async login(username: string, password: string) {
@@ -31,10 +29,6 @@ export class LoginPage {
     async clearInputs() {
         await this.usernameInput.clear();
         await this.passwordInput.clear();
-    }
-
-    async closeErrorMessage() {
-        await this.errorCloseButton.click();
     }
 
     async assertErrorMessage(expectedMessage: string) {
