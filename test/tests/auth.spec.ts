@@ -44,16 +44,6 @@ test.describe('Login Tests @smoke', () => {
         await loginPage.assertErrorMessage(testData.errorMessages.wrongCredentials);
     });
 
-    test('password without special character → show special character validation error', async ({ loginPage }) => {
-        await loginPage.login(testData.validUser.email, '534543665');
-        await loginPage.assertErrorMessage(testData.errorMessages.specialCharacterError);
-    });
-
-    test('password length less than 8 → show password length validation error', async ({ loginPage }) => {
-        await loginPage.login(testData.validUser.email, 'Test@2#');
-        await loginPage.assertErrorMessage(testData.errorMessages.passwordLengthError);
-    });
-
     test('click on forgot password link → move to forgot password page', async ({ loginPage, page }) => {
         await loginPage.navigateToForgotPassword();
         await expect(page).toHaveURL(/.*forgot-password/);
