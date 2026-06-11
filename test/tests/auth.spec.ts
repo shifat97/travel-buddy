@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/fixtures';
 import { testData } from '../data/testData';
 
-test.describe('Login Tests', () => {
+test.describe('Login Tests @smoke', () => {
     // Override storage state to start logged out
     test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -72,5 +72,23 @@ test.describe('Login Tests', () => {
         const token = cookies.find((cookie) => cookie.name == 'travel_buddy_token');
 
         expect(token).toBeTruthy();
+    });
+});
+
+test.describe('Logout user workflow @sanity', () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
+
+    test('Logout should clear the cookies', async ({ page, loginPage, homePage }) => {
+        await loginPage.navigate();
+        await loginPage.login(testData.validUser.email, testData.validUser.password);
+        await expect(page).toHaveURL(process.env.BASE_URL || '');
+
+        await homePage.hoverUserProfileButton();
+        await homePage.clickLogout();
+
+        const cookies = await page.context().cookies();
+        const token = cookies.find((cookie) => cookie.name == 'travel_buddy_token');
+
+        expect(token).toBeFalsy();
     });
 });
