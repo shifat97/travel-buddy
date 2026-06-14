@@ -85,4 +85,11 @@ test.describe('Sign up user workflow @smoke', () => {
         );
         await signUpPage.assertErrorMessage(testData.errorMessages.passwordNotMatched);
     });
+
+    test('empty all fields → all fields must be required', async ({ signUpPage }) => {
+        await expect(signUpPage.emailInput).toHaveAttribute('required');
+        await expect(signUpPage.fullNameInput).toHaveAttribute('required');
+        await expect(signUpPage.passwordInput).toHaveAttribute('required');
+        await expect(signUpPage.confirmPasswordInput).toHaveAttribute('required');
+    });
 });
