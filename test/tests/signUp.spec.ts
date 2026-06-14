@@ -60,6 +60,12 @@ test.describe('Sign up user workflow @smoke', () => {
         expect(createdEmail).toEqual(email.toLocaleLowerCase());
     });
 
+    test('create user with same email → show proper validation error', async ({ signUpPage }) => {
+        const password = faker.internet.password();
+        await signUpPage.createAccount(faker.person.fullName(), 'test@email.com', password, password);
+        await signUpPage.assertErrorMessage(testData.errorMessages.userAlreadyExist);
+    });
+
     test('password without special character → show special character validation error', async ({ signUpPage }) => {
         await signUpPage.createAccount(faker.person.fullName(), faker.internet.email(), '534543665', '534543665');
         await signUpPage.assertErrorMessage(testData.errorMessages.specialCharacterError);
@@ -68,5 +74,15 @@ test.describe('Sign up user workflow @smoke', () => {
     test('password length less than 8 → show password length validation error', async ({ signUpPage }) => {
         await signUpPage.createAccount(faker.person.fullName(), faker.internet.email(), 'Test@2#', 'Test@2#');
         await signUpPage.assertErrorMessage(testData.errorMessages.passwordLengthError);
+    });
+
+    test('different passwords → should show the error message', async ({ signUpPage }) => {
+        await signUpPage.createAccount(
+            faker.person.fullName(),
+            faker.internet.email(),
+            faker.internet.password(),
+            faker.internet.password(),
+        );
+        await signUpPage.assertErrorMessage(testData.errorMessages.passwordNotMatched);
     });
 });
