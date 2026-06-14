@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/fixtures';
 import { testData } from '../data/testData';
 
-test.describe('Login Tests @smoke', () => {
+test.describe('Login Tests @regression', () => {
     // Override storage state to start logged out
     test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -9,7 +9,7 @@ test.describe('Login Tests @smoke', () => {
         await loginPage.navigate();
     });
 
-    test('valid email + valid password → move to home page', async ({ loginPage, page }) => {
+    test('valid email + valid password → move to home page @smoke', async ({ loginPage, page }) => {
         await loginPage.login(testData.validUser.email, testData.validUser.password);
         await expect(page).toHaveURL(process.env.BASE_URL || '');
     });

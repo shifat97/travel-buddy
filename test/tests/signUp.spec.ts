@@ -2,12 +2,15 @@ import { test, expect } from '../fixtures/fixtures';
 import { testData } from '../data/testData';
 import { faker } from '@faker-js/faker';
 
-test.describe('Sign up user workflow @smoke', () => {
+test.describe('Sign up user workflow @regression', () => {
     test.beforeEach(async ({ signUpPage }) => {
         await signUpPage.navigate();
     });
 
-    test('valid name + email + password + confirm password → sign up successful', async ({ page, signUpPage }) => {
+    test('valid name + email + password + confirm password → sign up successful @smoke', async ({
+        page,
+        signUpPage,
+    }) => {
         const password = faker.internet.password();
 
         await signUpPage.createAccount(faker.person.fullName(), faker.internet.email(), password, password);
