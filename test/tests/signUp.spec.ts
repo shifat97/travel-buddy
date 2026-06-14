@@ -1,7 +1,6 @@
 import { test, expect } from '../fixtures/fixtures';
 import { testData } from '../data/testData';
 import { faker } from '@faker-js/faker';
-import { beforeEach } from 'node:test';
 
 test.describe('Sign up user workflow @smoke', () => {
     test.beforeEach(async ({ signUpPage }) => {
