@@ -7,6 +7,7 @@ export class ForgotPasswordPage {
     readonly confirmPasswordInput: Locator;
     readonly resetPasswordButton: Locator;
     readonly errorMessage: Locator;
+    readonly successMessage: Locator;
     readonly backToLoginLink: Locator;
 
     constructor(page: Page) {
@@ -15,7 +16,8 @@ export class ForgotPasswordPage {
         this.newPasswordInput = page.locator('[id="new-password"]');
         this.confirmPasswordInput = page.locator('[id="confirm-password"]');
         this.resetPasswordButton = page.locator('[type="submit"]');
-        this.errorMessage = page.locator('[data-test="login-error"] span');
+        this.errorMessage = page.locator("//div[@class='auth-message error']//span");
+        this.successMessage = page.locator("//div[@class='auth-message success']//span");
         this.backToLoginLink = page.locator("//div[@class='auth-footer']//a//span");
     }
 

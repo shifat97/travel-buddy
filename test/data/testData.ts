@@ -3,6 +3,9 @@ export const testData = {
         email: process.env.USER_NAME || '',
         password: process.env.PASSWORD || '',
     },
+    successMessage: {
+        passwordResetSuccessful: 'Password reset successful! Redirecting to login...',
+    },
     errorMessages: {
         wrongCredentials: 'Invalid email or password',
         specialCharacterError:
@@ -11,5 +14,6 @@ export const testData = {
         characterError: 'Name must be below 50 characters',
         passwordNotMatched: 'Passwords do not match',
         userAlreadyExist: 'User already exists',
+        userNotFound: 'User not found',
     },
 };
