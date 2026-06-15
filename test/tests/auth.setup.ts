@@ -8,6 +8,6 @@ setup('authenticate', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login(testData.validUser.email, testData.validUser.password);
-    await expect(page).toHaveURL(/.*login/);
+    await expect(page).toHaveURL(process.env.BASE_URL || '');
     await page.context().storageState({ path: authFile });
 });
