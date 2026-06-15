@@ -10,7 +10,11 @@ const destinationSchema = new mongoose.Schema(
     category: { type: String, required: true },
     imageUrl: { type: String, required: true },
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
 );
 
 const Destination = mongoose.model('Destination', destinationSchema);

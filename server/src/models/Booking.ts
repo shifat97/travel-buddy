@@ -15,7 +15,11 @@ const bookingSchema = new mongoose.Schema(
       default: 'confirmed',
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
 );
 
 const Booking = mongoose.model('Booking', bookingSchema);

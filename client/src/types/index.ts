@@ -1,5 +1,6 @@
 export interface User {
   id: string;
+  _id?: string;
   name: string;
   email: string;
   password?: string;
@@ -7,6 +8,7 @@ export interface User {
 
 export interface Destination {
   id: string;
+  _id?: string;
   name: string;
   location: string;
   description: string;
@@ -18,6 +20,7 @@ export interface Destination {
 
 export interface Booking {
   id: string;
+  _id?: string;
   userEmail: string;
   destinationId: string;
   destinationName: string;
