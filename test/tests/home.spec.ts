@@ -7,7 +7,7 @@ test.describe('Home page search workflow', () => {
     });
 
     /* Test with existed location names */
-    test('search existed location → result found', async ({ page, homePage, destinationPage }) => {
+    test('search existed location → result found @smoke', async ({ page, homePage, destinationPage }) => {
         await homePage.search(testData.searchLocations.validLocationName);
         await expect(page).toHaveURL(
             `${process.env.BASE_URL}/destinations?search=${testData.searchLocations.validLocationName}`,
@@ -24,7 +24,7 @@ test.describe('Home page search workflow', () => {
     });
 
     /* Test with existed country name */
-    test('search existed country name → result found', async ({ page, homePage, destinationPage }) => {
+    test('search existed country name → result found @smoke', async ({ page, homePage, destinationPage }) => {
         await homePage.search(testData.searchLocations.validCountryName);
         await expect(page).toHaveURL(
             `${process.env.BASE_URL}/destinations?search=${testData.searchLocations.validCountryName}`,
@@ -113,7 +113,7 @@ test.describe('Home page search workflow', () => {
     });
 
     /* Test search location on enter key press */
-    test('search existed location + enter key press → result found @debug', async ({
+    test('search existed location + enter key press → result found @smoke', async ({
         page,
         homePage,
         destinationPage,

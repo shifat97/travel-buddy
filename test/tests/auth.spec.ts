@@ -65,7 +65,7 @@ test.describe('Login Tests @regression', () => {
     });
 });
 
-test.describe('Logout user workflow @sanity', () => {
+test.describe('Logout user workflow @smoke', () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 
     test('Logout should clear the cookies', async ({ page, loginPage, homePage }) => {

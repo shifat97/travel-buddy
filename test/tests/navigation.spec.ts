@@ -21,7 +21,7 @@ test.describe('Navigate authenticated URLs', () => {
     });
 });
 
-test.describe('Navigate authenticated url without login', () => {
+test.describe('Navigate authenticated url without login @smoke', () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 
     test('copy bookings url + paste to a fresh tab or browser', async ({ page }) => {
