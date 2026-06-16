@@ -1,7 +1,6 @@
 import { test, expect } from '../fixtures/fixtures';
-import { testData } from '../data/testData';
 
-test.describe('Navigate authenticated URLs', () => {
+test.describe('Navigate authenticated URLs @regression', () => {
     test.beforeEach(async ({ page, homePage }) => {
         await homePage.navigate();
 
@@ -21,7 +20,7 @@ test.describe('Navigate authenticated URLs', () => {
     });
 });
 
-test.describe('Navigate authenticated url without login @smoke', () => {
+test.describe('Navigate authenticated url without login @smoke @regression', () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 
     test('copy bookings url + paste to a fresh tab or browser', async ({ page }) => {

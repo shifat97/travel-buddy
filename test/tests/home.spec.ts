@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/fixtures';
 import { testData } from '../data/testData';
 
-test.describe('Home page search workflow', () => {
+test.describe('Home page search workflow @regression', () => {
     test.beforeEach(async ({ homePage }) => {
         await homePage.navigate();
     });
