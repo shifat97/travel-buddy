@@ -16,4 +16,9 @@ export const testData = {
         userAlreadyExist: 'User already exists',
         userNotFound: 'User not found',
     },
+    searchLocations: {
+        validLocationName: 'Bali',
+        validCountryName: 'Japan',
+        invalidLocationName: 'Jupyter',
+    },
 };
