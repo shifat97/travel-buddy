@@ -17,7 +17,7 @@ export class HomePage {
         this.loginButton = page.locator('[data-test="nav-login-btn"]');
         this.bookingsLink = page.locator('[data-test="nav-my-bookings"]');
         this.profileLink = page.locator('[data-test="nav-profile-link"]');
-        this.searchInput = page.locator('[date-test="home-search-input"]');
+        this.searchInput = page.locator('[data-test="home-search-input"]');
         this.searchButton = page.locator('[data-test="home-search-btn"]');
     }
 
