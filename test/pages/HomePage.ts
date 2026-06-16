@@ -7,6 +7,8 @@ export class HomePage {
     readonly loginButton: Locator;
     readonly bookingsLink: Locator;
     readonly profileLink: Locator;
+    readonly searchInput: Locator;
+    readonly searchButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +17,8 @@ export class HomePage {
         this.loginButton = page.locator('[data-test="nav-login-btn"]');
         this.bookingsLink = page.locator('[data-test="nav-my-bookings"]');
         this.profileLink = page.locator('[data-test="nav-profile-link"]');
+        this.searchInput = page.locator('[date-test="home-search-input"]');
+        this.searchButton = page.locator('[data-test="home-search-btn"]');
     }
 
     async navigate() {
@@ -40,5 +44,10 @@ export class HomePage {
 
     async clickProfileLink() {
         await this.profileLink.click();
+    }
+
+    async search(locationName: string) {
+        await this.searchInput.fill(locationName);
+        await this.searchButton.click();
     }
 }
