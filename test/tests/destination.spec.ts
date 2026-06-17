@@ -135,3 +135,59 @@ test.describe('Destination page interactions @regression', () => {
         }
     });
 });
+
+test.describe('Frontend + API Integration @smoke', () => {
+    test('get all destinations with API → check frontend data @test', async ({
+        request,
+        page,
+        destinationPage,
+        homePage,
+    }) => {
+        await homePage.navigate();
+
+        const cookies = await page.context().cookies();
+        const token = cookies[0]['value'];
+
+        const destinationApiData = await request.get(`${process.env.SERVER_BASE_URL}/api/destinations`, {
+            headers: {
+                Cookie: `token=${token}`,
+            },
+        });
+
+        const customDestinationAPIData = [];
+
+        for (const data of await destinationApiData.json()) {
+            const myData = {
+                name: data['name'],
+                location: data['location'],
+                price: data['price'].toString(),
+                rating: data['rating'].toString(),
+            };
+
+            customDestinationAPIData.push(myData);
+        }
+
+        await destinationPage.navigate();
+
+        let frontendUIData = [];
+        while (true) {
+            const cards = await destinationPage.destinationGridContainer.locator('.destination-card').all();
+
+            const pageResults = await Promise.all(
+                cards.map(async (card) => ({
+                    name: (await card.locator('.card-title').textContent()) ?? '',
+                    location: (await card.locator('.card-location span').textContent()) ?? '',
+                    price: (await card.locator('.price-value').textContent()).split('$')[1] ?? '',
+                    rating: (await card.locator('.card-rating span').textContent()) ?? '',
+                })),
+            );
+
+            frontendUIData.push(...pageResults);
+
+            if (await destinationPage.nextButton.isDisabled()) break;
+            await destinationPage.nextButton.click();
+        }
+
+        expect(frontendUIData).toEqual(customDestinationAPIData);
+    });
+});

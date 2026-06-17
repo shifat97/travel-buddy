@@ -10,6 +10,7 @@ export class DestinationPage {
     readonly cardBadge: Locator;
     readonly maxPriceRange: Locator;
     readonly cardPrice: Locator;
+    readonly nextButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +22,7 @@ export class DestinationPage {
         this.cardBadge = page.locator('//div[@class="card-badge"]');
         this.maxPriceRange = page.locator('[data-test="price-range-slider"]');
         this.cardPrice = page.locator('//div[@class="card-price"]//span[@class="price-value"]');
+        this.nextButton = page.locator('[data-test="next-page-btn"]');
     }
 
     async navigate() {
