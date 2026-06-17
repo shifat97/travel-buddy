@@ -8,6 +8,8 @@ export class DestinationPage {
     readonly categoryFilters: Locator;
     readonly categoryFiltersActive: Locator;
     readonly cardBadge: Locator;
+    readonly maxPriceRange: Locator;
+    readonly cardPrice: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,6 +19,8 @@ export class DestinationPage {
         this.categoryFilters = page.locator('//button[@class="category-btn "]');
         this.categoryFiltersActive = page.locator('//button[@class="category-btn active"]');
         this.cardBadge = page.locator('//div[@class="card-badge"]');
+        this.maxPriceRange = page.locator('[data-test="price-range-slider"]');
+        this.cardPrice = page.locator('//div[@class="card-price"]//span[@class="price-value"]');
     }
 
     async navigate() {
@@ -42,6 +46,14 @@ export class DestinationPage {
 
     async getActiveCategoryFilters(): Promise<string> {
         return await this.categoryFiltersActive.first().textContent();
+    }
+
+    async setMaxPriceRange(price: number) {
+        await this.maxPriceRange.fill(price.toString());
+    }
+
+    async getCardPrices(): Promise<Locator[]> {
+        return await this.cardPrice.all();
     }
 
     async getNoDestinationFoundText(): Promise<string> {

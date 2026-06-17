@@ -114,9 +114,24 @@ test.describe('Destination page interactions @regression', () => {
             }
         }
     });
-    /* Test max price with 50 */
-    /* Test max price with 49 */
-    /* Test max price with 500 */
-    /* Test max price with 501 */
-    /* Test max price with 300 */
+
+    /* Test max price with 150 */
+    test('set max price to 300 → show locations within 300 @test', async ({ page, destinationPage }) => {
+        await destinationPage.setMaxPriceRange(300);
+
+        const grids = await destinationPage.getAllDestinationGrids();
+
+        for (const grid of grids) {
+            await expect(grid).toBeVisible();
+
+            const prices = await destinationPage.getCardPrices();
+
+            for (const price of prices) {
+                await expect(price).toBeVisible();
+
+                const cardPriceText = (await price.textContent()).split('$')[1];
+                expect(Number(cardPriceText)).toBeLessThanOrEqual(300);
+            }
+        }
+    });
 });
