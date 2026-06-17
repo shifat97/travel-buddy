@@ -116,7 +116,7 @@ test.describe('Destination page interactions @regression', () => {
     });
 
     /* Test max price with 150 */
-    test('set max price to 300 → show locations within 300 @test', async ({ page, destinationPage }) => {
+    test('set max price to 300 → show locations within 300', async ({ page, destinationPage }) => {
         await destinationPage.setMaxPriceRange(300);
 
         const grids = await destinationPage.getAllDestinationGrids();
