@@ -137,7 +137,7 @@ test.describe('Destination page interactions @regression', () => {
 });
 
 test.describe('Frontend + API Integration @smoke', () => {
-    test('get all destinations with API → check frontend data @test', async ({
+    test('get all destinations with API → check frontend data', async ({
         request,
         page,
         destinationPage,
