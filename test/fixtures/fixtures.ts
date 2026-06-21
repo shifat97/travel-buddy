@@ -5,6 +5,8 @@ import { SignUpPage } from '../pages/SignUpPage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { ForgotPasswordPage } from '../pages/ForgotPasswordPage';
 import { DestinationPage } from '../pages/DestinationPage';
+import { BookingsPage } from '../pages/BookingsPage';
+import { SingleDestinationPage } from '../pages/SingleDestinationPage';
 
 type MyFixtures = {
     signUpPage: SignUpPage;
@@ -13,6 +15,8 @@ type MyFixtures = {
     forgotPasswordPage: ForgotPasswordPage;
     profilePage: ProfilePage;
     destinationPage: DestinationPage;
+    bookingsPage: BookingsPage;
+    singleDestinationPage: SingleDestinationPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -33,6 +37,12 @@ export const test = base.extend<MyFixtures>({
     },
     destinationPage: async ({ page }, use) => {
         await use(new DestinationPage(page));
+    },
+    bookingsPage: async ({ page }, use) => {
+        await use(new BookingsPage(page));
+    },
+    singleDestinationPage: async ({ page }, use) => {
+        await use(new SingleDestinationPage(page));
     },
 });
 

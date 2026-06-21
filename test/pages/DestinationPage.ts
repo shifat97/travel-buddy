@@ -31,11 +31,20 @@ export class DestinationPage {
     }
 
     async destinationGridCounter(): Promise<number> {
-        return await this.destinationGridContainer.count();
+        return await this.destinationGridContainer.locator('.destination-card').count();
     }
 
     async getAllDestinationGrids(): Promise<Locator[]> {
-        return await this.destinationGridContainer.all();
+        return await this.destinationGridContainer.locator('.destination-card').all();
+    }
+
+    async getRandomCardViewDetailsButton(): Promise<Locator> {
+        const allGrids = await this.getAllDestinationGrids();
+        const gridLength = await this.destinationGridCounter();
+        const grid = allGrids[Math.floor(Math.random() * gridLength)];
+
+        const randomCard = grid.locator('.card-footer .btn').first();
+        return randomCard;
     }
 
     async getCategoriesName(): Promise<Locator[]> {
