@@ -2,5 +2,7 @@ node_modules/
 test-results/
 playwright-report/
 playwright/.auth/
+allure-report/
+allure-results/
 blob-report/
 .env
