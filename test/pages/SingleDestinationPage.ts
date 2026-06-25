@@ -9,6 +9,7 @@ export class SingleDestinationPage {
     readonly guestSelection: Locator;
     readonly confirmBookingButton: Locator;
     readonly bookingSuccessMessage: Locator;
+    readonly bookingErrorMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -19,5 +20,11 @@ export class SingleDestinationPage {
         this.guestSelection = page.locator('[data-test="guest-select"]');
         this.confirmBookingButton = page.locator('[data-test="confirm-booking-btn"]');
         this.bookingSuccessMessage = page.locator('//div[@class="booking-message success"]');
+        this.bookingErrorMessage = page.locator('//div[@data-test="booking-message"]//span')
+    }
+
+    async assertErrorMessage(expectedMessage: string) {
+        await expect(this.bookingErrorMessage).toBeVisible();
+        await expect(this.bookingErrorMessage).toContainText(expectedMessage);
     }
 }

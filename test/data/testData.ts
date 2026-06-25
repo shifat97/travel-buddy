@@ -15,6 +15,9 @@ export const testData = {
         passwordNotMatched: 'Passwords do not match',
         userAlreadyExist: 'User already exists',
         userNotFound: 'User not found',
+        sameDateError: 'Check-out date must be after check-in date',
+        oldDateError: 'Check-in date must be today or after',
+        sameDayError: 'Two different destinations are booking on same day',
     },
     searchLocations: {
         validLocationName: 'Bali',
