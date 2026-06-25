@@ -40,7 +40,7 @@ test.describe('Home page search workflow @regression', () => {
         }
     });
 
-    /* Test location that doesn't exists */
+    /* Test location that doesn't exist */
     test('search location that does not exist → result not found found', async ({
         page,
         homePage,

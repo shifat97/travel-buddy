@@ -36,7 +36,7 @@ test.describe('Destination page interactions @regression', () => {
         }
     });
 
-    /* Test location that doesn't exists */
+    /* Test location that doesn't exist */
     test('search location that does not exist → result not found found', async ({ page, destinationPage }) => {
         await destinationPage.search(testData.searchLocations.invalidLocationName);
         await expect(page).toHaveURL(`${process.env.BASE_URL}/destinations`);
@@ -116,7 +116,7 @@ test.describe('Destination page interactions @regression', () => {
     });
 
     /* Test max price with 300 */
-    test('set max price to 300 → show locations within 300', async ({ page, destinationPage }) => {
+    test('set max price to 300 → show locations within 300', async ({ destinationPage }) => {
         await destinationPage.setMaxPriceRange(300);
 
         const grids = await destinationPage.getAllDestinationGrids();
@@ -129,7 +129,7 @@ test.describe('Destination page interactions @regression', () => {
             for (const price of prices) {
                 await expect(price).toBeVisible();
 
-                const cardPriceText = (await price.textContent()).split('$')[1];
+                const cardPriceText = (await price.textContent())?.split('$')[1];
                 expect(Number(cardPriceText)).toBeLessThanOrEqual(300);
             }
         }
@@ -177,7 +177,7 @@ test.describe('Frontend + API Integration @smoke', () => {
                 cards.map(async (card) => ({
                     name: (await card.locator('.card-title').textContent()) ?? '',
                     location: (await card.locator('.card-location span').textContent()) ?? '',
-                    price: (await card.locator('.price-value').textContent()).split('$')[1] ?? '',
+                    price: (await card.locator('.price-value').textContent())?.split('$')[1] ?? '',
                     rating: (await card.locator('.card-rating span').textContent()) ?? '',
                 })),
             );

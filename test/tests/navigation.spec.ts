@@ -5,7 +5,7 @@ test.describe('Navigate authenticated URLs @regression', () => {
         await homePage.navigate();
 
         const context = page.context();
-        context.clearCookies();
+        await context.clearCookies();
     });
 
     test('login + clear cookies + navigate bookings link → move back to login page', async ({ page, homePage }) => {

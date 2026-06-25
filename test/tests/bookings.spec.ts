@@ -1,23 +1,21 @@
 import { test, expect } from '../fixtures/fixtures';
-import { testData } from '../data/testData';
 
 test.describe('Destination booking flow @regression', () => {
     // Check in and out are dates are valid
     test('go to destination page → select destination → book with valid date @smoke @debug', async ({
         page,
         destinationPage,
-        bookingsPage,
         singleDestinationPage,
     }) => {
         await destinationPage.navigate();
         const viewDetailsButton = await destinationPage.getRandomCardViewDetailsButton();
 
         // get the card id from data-test attribute
-        const id = (await viewDetailsButton.getAttribute('data-test')).split('-')[2];
+        const id = await viewDetailsButton.getAttribute('data-test');
 
         await viewDetailsButton.click();
 
-        await expect(page).toHaveURL(`${process.env.BASE_URL}/destinations/${id}`);
+        await expect(page).toHaveURL(`${process.env.BASE_URL}/destinations/${id?.split('-')[2]}`);
 
         const pageData = {
             title: singleDestinationPage.singleDestinationTitle,
