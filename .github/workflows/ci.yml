@@ -37,15 +37,15 @@ jobs:
 
             - name: Install Client Dependencies
               working-directory: ./client
-              run: npm ci
+              run: npm i
 
             - name: Install Server Dependencies
               working-directory: ./server
-              run: npm ci
+              run: npm i
 
             - name: Install Test Dependencies
               working-directory: ./test
-              run: npm ci
+              run: npm i
 
             # ==========================
             # Install Playwright Browsers
