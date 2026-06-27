@@ -93,14 +93,14 @@ jobs:
             # Wait For Services
             # ==========================
 
-            - name: Install wait-on
-              run: npm install -g wait-on
+            # - name: Install wait-on
+            #  run: npm install -g wait-on
 
-            - name: Wait For Backend
-              run: wait-on $SERVER_BASE_URL
+            # - name: Wait For Backend
+            #  run: wait-on $SERVER_BASE_URL
 
-            - name: Wait For Frontend
-              run: wait-on $BASE_URL
+            # - name: Wait For Frontend
+            #  run: wait-on $BASE_URL
 
             # ==========================
             # Run Playwright Tests
