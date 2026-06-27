@@ -96,11 +96,6 @@ jobs:
             - name: Install wait-on
               run: npm install -g wait-on
 
-            - name: Check Backend Startup
-              run: |
-                  sleep 15
-                  cat server/server.log
-
             - name: Wait For Backend
               run: wait-on $SERVER_BASE_URL
 
